@@ -1,2 +1,2 @@
-export { default as TopBar } from "./TopBar";
+export { default as TopBar } from "./Header";
 export { default as Navbar } from "./Navbar";

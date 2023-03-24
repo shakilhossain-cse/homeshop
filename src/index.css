@@ -4,8 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   body {
     @apply font-poppins;
@@ -27,7 +25,7 @@
     @apply ring-2 ring-primary;
   }
   .card-container {
-    @apply container grid grid-cols-4 gap-6;
+    @apply container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6;
   }
   .card {
     @apply bg-white shadow rounded overflow-hidden;
