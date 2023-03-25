@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
+import Pagination from "../../components/Pagination";
 import { getAllProducts } from "../../services/productService";
-import { IProduct } from "../../type";
+import { IPagination, IProduct } from "../../type";
+import { getCategoryValuesFromUrl } from "../../utils/getCategoryValuesFromUrl";
 import ShopProducts from "./ShopProducts";
 import ShopSidebar from "./ShopSidebar";
 
@@ -10,19 +13,72 @@ interface IShopProduct {
   current_page: number;
   data: IProduct[];
   total: number;
+  links: IPagination[];
   prev_page_url: string | null;
   next_page_url: string | null;
 }
-
+export interface IFilterData {
+  categories: string[];
+  brands: string[];
+  priceRange: number[];
+  size: string;
+  color: string;
+  [key: string]: string[] | number[] | string;
+}
 const Shop = () => {
+  const [filterData, setFilterData] = useState<IFilterData>({
+    categories: [],
+    brands: [],
+    priceRange: [],
+    size: "",
+    color: "",
+  });
+  const [categories, setCategories] = useState<string[]>([]);
+
+  const [search, setSearch] = useSearchParams();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (categories.length >= 1) {
+      search.set(
+        "category",
+        categories.map((c) => c.replace(",", "%2C")).join(",")
+      );
+      setSearch(search);
+    } else {
+      search.delete("category");
+      setSearch(search);
+    }
+    console.log(location.search);
+  }, [categories]);
+
+  const handelFilter = (value: string) => {
+    const find = categories.find((category) => category === value);
+
+    if (find) {
+      const category = categories.filter((category) => category !== value);
+      setCategories(category);
+    } else {
+      setCategories([...categories, value]);
+    }
+  };
+
+  const isCheckedAns = (value: string): boolean => {
+    const category = categories.find((category) => category === value);
+    if (category) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   const { data } = useQuery<IShopProduct>(["shop-product"], getAllProducts);
 
   return (
     <>
       <BreadCrumb title="shop" />
       <div className="container grid grid-cols-4 gap-6 pt-4 pb-16 items-start">
-        {/* sidebar  */}
-        <ShopSidebar />
+        <ShopSidebar isCheckedAns={isCheckedAns} handelFilter={handelFilter} />
         {/* products */}
         <div className="col-span-3">
           {/* sorting  */}
@@ -48,8 +104,8 @@ const Shop = () => {
               </div>
             </div>
           </div>
-          {data?.data && <ShopProducts products={data.data}/>}
-          
+          {data?.data && <ShopProducts products={data.data} />}
+          {data?.links && <Pagination links={data.links} />}
         </div>
       </div>
     </>

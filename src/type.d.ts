@@ -15,3 +15,8 @@ export interface IProduct {
   colors: string[];
   rating: string[];
 }
+export interface IPagination {
+  url: string | null;
+  label: string;
+  active: boolean;
+}

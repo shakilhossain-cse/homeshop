@@ -20,7 +20,7 @@ function ProductCard({ product }: { product: IProduct }) {
       </div>
       {/* product content  */}
       <div className="card-content">
-        <Link to={"product/" + product.slug}>
+        <Link to={"/product/" + product.slug}>
           <h4 className="card-title">{product.title.substring(0, 18)}</h4>
         </Link>
         <div className="card-price-container">

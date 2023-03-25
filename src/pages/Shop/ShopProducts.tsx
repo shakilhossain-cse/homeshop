@@ -370,7 +370,7 @@ function ShopProducts({ products }: { products: IProduct[] }) {
         </div>
         <div id="gridData" className="grid grid-cols-3 gap-4">
           {products.map((product) => (
-            <ProductCard product={product} />
+            <ProductCard product={product} key={product.id}/>
           ))}
         </div>
       </div>

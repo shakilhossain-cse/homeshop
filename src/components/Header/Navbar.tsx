@@ -102,12 +102,12 @@ function NavLinks() {
           </Link>
         ))}
       </div>
-      <a
-        href="login.html"
+      <Link
+        to="/login"
         className="text-gray-200 hover:text-white transition"
       >
         Account
-      </a>
+      </Link>
     </div>
   );
 }
