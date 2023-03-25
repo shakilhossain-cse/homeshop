@@ -1,24 +1,45 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { addToCart, cartAtom } from "../../recoil";
 import { IProduct } from "../../type";
+import {
+  AiOutlineShopping,
+  AiOutlineHeart,
+  AiFillShopping,
+} from "react-icons/ai";
 
 function ProductOption({ data }: { data: IProduct }) {
+  const [cart, setCart] = useRecoilState(cartAtom);
+
+  const handelAddToCart = (product: IProduct, quantity: number) => {
+    if (isAddToCart(product.id) !== true) {
+      const newCart = addToCart(cart, product, quantity);
+      setCart(newCart);
+    }
+  };
+
+  const isAddToCart = (cartId: number): boolean => {
+    const findCart = cart.find((item) => item.id === cartId);
+    return !!findCart;
+  };
+
   const [itemQuantity, setItemQuantity] = useState(data.quantity >= 1 ? 1 : 0);
   const [qtyError, setQtyError] = useState("");
 
-  const IncrementQty = () => {
+  const incrementQty = () => {
     if (data.quantity === itemQuantity) {
       setQtyError(`This product only ${data.quantity} available `);
       return;
     }
-    setQtyError("")
+    setQtyError("");
     setItemQuantity((prev) => prev + 1);
   };
-  const DecrementQty = () => {
+  const decrementQty = () => {
     if (itemQuantity <= 1) {
       setQtyError(`You can't decrease product qty lower then 1`);
       return;
     }
-    setQtyError("")
+    setQtyError("");
     setItemQuantity((prev) => prev - 1);
   };
   return (
@@ -114,7 +135,7 @@ function ProductOption({ data }: { data: IProduct }) {
         <div className="flex border border-gray-300 divide-x divide-gray-300 w-max">
           <div
             className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-            onClick={DecrementQty}
+            onClick={decrementQty}
           >
             -
           </div>
@@ -123,7 +144,7 @@ function ProductOption({ data }: { data: IProduct }) {
           </div>
           <div
             className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-            onClick={IncrementQty}
+            onClick={incrementQty}
           >
             +
           </div>
@@ -132,18 +153,34 @@ function ProductOption({ data }: { data: IProduct }) {
       </div>
       {/* card button  */}
       <div className="flex gap-3 border-b border-gray-200 pb-5 mt-6">
-        <a
-          href="#"
-          className={`border border-primary text-white px-5 md:px-8 py-1 md:py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition ${data.quantity >= 1 ? 'bg-primary ':'bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-red-200 hover:text-white'}`}
+        <button
+          onClick={() => handelAddToCart(data, itemQuantity)}
+          className={`border border-primary text-white px-5 md:px-8 py-1 md:py-2 font-medium rounded uppercase flex items-center gap-2  transition  ${
+            data.quantity >= 1
+              ? "bg-primary hover:text-primary hover:bg-transparent"
+              : "bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-primary hover:bg-opacity-25 hover:text-white"
+          } ${
+            isAddToCart(data.id) &&
+            "bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-primary hover:bg-opacity-25 hover:text-white"
+          }`}
         >
-          <i className="fas fa-shopping-bag" />
-          Add to cart
-        </a>
+          {isAddToCart(data.id) ? (
+            <>
+              <AiFillShopping />
+              Added on Cart
+            </>
+          ) : (
+            <>
+              <AiOutlineShopping />
+              Add to cart
+            </>
+          )}
+        </button>
         <a
           href="#"
           className="border border-gray-300 text-gray-600 px-5 md:px-8 py-1 md:py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
         >
-          <i className="fas fa-heart" />
+          <AiOutlineHeart />
           Wishlist
         </a>
       </div>

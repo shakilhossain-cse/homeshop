@@ -57,6 +57,9 @@
   .card-button {
     @apply block w-full py-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition;
   }
+  .card-button-done {
+    @apply block w-full py-1 text-center cursor-not-allowed border border-primary rounded hover:bg-transparent text-primary transition;
+  }
   .input-box {
     @apply block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded placeholder-gray-400 focus:border-primary focus:ring-0;
   }

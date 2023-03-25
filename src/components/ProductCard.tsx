@@ -1,9 +1,21 @@
-import { Link } from "react-router-dom"
-import { IProduct } from "../type"
+import { Link } from "react-router-dom";
+import { IProduct } from "../type";
 import { AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
-
+import { useRecoilState } from "recoil";
+import { addToCart, cartAtom } from "../recoil";
 
 function ProductCard({ product }: { product: IProduct }) {
+  const [cart, setCart] = useRecoilState(cartAtom);
+  const handelAddToCart = (product: IProduct, quantity: number) => {
+    const newCart = addToCart(cart, product, quantity);
+    setCart(newCart);
+  };
+
+  const isAddToCart = (cartId: number): boolean => {
+    const findCart = cart.find((item) => item.id === cartId);
+    return !!findCart;
+  };
+
   return (
     <div className="card group">
       {/* product image */}
@@ -52,12 +64,16 @@ function ProductCard({ product }: { product: IProduct }) {
           {/* <div className="tex-xs text-gray-500 ml-3">({product.})</div> */}
         </div>
       </div>
-      <a href="#" className="card-button">
-        {" "}
-        Add to Cart{" "}
-      </a>
+      <button
+        onClick={() => handelAddToCart(product, 1)}
+        className={
+          isAddToCart(product.id) ? `card-button-done` : "card-button"
+        }
+      >
+        {isAddToCart(product.id) ? `Added on Cart` : " Add to Cart"}
+      </button>
     </div>
-  )
+  );
 }
 
-export default ProductCard
+export default ProductCard;

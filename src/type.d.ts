@@ -20,3 +20,9 @@ export interface IPagination {
   label: string;
   active: boolean;
 }
+
+export interface ICartData {
+  id: number;
+  quantity: number;
+  product: IProduct;
+}
