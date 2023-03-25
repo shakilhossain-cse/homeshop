@@ -158,10 +158,10 @@ function ProductOption({ data }: { data: IProduct }) {
           className={`border border-primary text-white px-5 md:px-8 py-1 md:py-2 font-medium rounded uppercase flex items-center gap-2  transition  ${
             data.quantity >= 1
               ? "bg-primary hover:text-primary hover:bg-transparent"
-              : "bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-primary hover:bg-opacity-25 hover:text-white"
+              : "bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-primary hover:bg-opacity-25 hover:text-black"
           } ${
             isAddToCart(data.id) &&
-            "bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-primary hover:bg-opacity-25 hover:text-white"
+            "bg-primary bg-opacity-25 cursor-not-allowed border-opacity-0 hover:bg-primary hover:bg-opacity-25 hover:text-black"
           }`}
         >
           {isAddToCart(data.id) ? (

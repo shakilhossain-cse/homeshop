@@ -4,10 +4,11 @@ import {
   addToLocalStorage,
   getFromLocalStorage,
 } from "../../utils/localStorage";
+import { cartKey } from "../constanse";
 
 const cartAtom = atom<ICartData[]>({
   key: "cartAtom",
-  default: getFromLocalStorage("cart") ?? [],
+  default: getFromLocalStorage(cartKey) ?? [],
 });
 
 export const addToCart = (
@@ -17,13 +18,13 @@ export const addToCart = (
 ) => {
   const newCart = [...cart];
   newCart.push({ id: product.id, product, quantity: qty });
-  addToLocalStorage("cart", newCart);
+  addToLocalStorage(cartKey, newCart);
   return newCart;
 };
 
 export const removeFromCart = (cart: ICartData[], productId: number) => {
   const filterProduct = cart.filter((product) => product.id !== productId);
-  addToLocalStorage("cart", filterProduct);
+  addToLocalStorage(cartKey, filterProduct);
   return filterProduct;
 };
 
@@ -41,7 +42,7 @@ export const incrementQuantity = (cart: ICartData[], productId: number) => {
       updatedCart[itemIndex] = updatedItem;
     }
   }
-
+  addToLocalStorage(cartKey, updatedCart);
   return updatedCart;
 };
 export const decrementQuantity = (cart: ICartData[], productId: number) => {
@@ -61,7 +62,7 @@ export const decrementQuantity = (cart: ICartData[], productId: number) => {
       updatedCart.splice(itemIndex, 1); // Remove the item from the array
     }
   }
-
+  addToLocalStorage(cartKey, updatedCart);
   return updatedCart;
 };
 

@@ -7,8 +7,10 @@ import { addToCart, cartAtom } from "../recoil";
 function ProductCard({ product }: { product: IProduct }) {
   const [cart, setCart] = useRecoilState(cartAtom);
   const handelAddToCart = (product: IProduct, quantity: number) => {
-    const newCart = addToCart(cart, product, quantity);
-    setCart(newCart);
+    if (isAddToCart(product.id) !== true) {
+      const newCart = addToCart(cart, product, quantity);
+      setCart(newCart);
+    }
   };
 
   const isAddToCart = (cartId: number): boolean => {
@@ -66,9 +68,7 @@ function ProductCard({ product }: { product: IProduct }) {
       </div>
       <button
         onClick={() => handelAddToCart(product, 1)}
-        className={
-          isAddToCart(product.id) ? `card-button-done` : "card-button"
-        }
+        className={isAddToCart(product.id) ? `card-button-done` : "card-button"}
       >
         {isAddToCart(product.id) ? `Added on Cart` : " Add to Cart"}
       </button>
