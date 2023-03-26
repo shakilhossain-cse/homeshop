@@ -33,3 +33,11 @@ export interface ICartData {
   quantity: number;
   product: IProduct;
 }
+
+export interface AxiosErrorResponse {
+  response?: {
+    data?: {
+      message: string;
+    };
+  };
+}

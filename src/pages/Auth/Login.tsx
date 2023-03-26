@@ -7,22 +7,15 @@ import { useSetRecoilState } from "recoil";
 import { tokenAtom, userAtom } from "../../recoil/atoms/LoginAtom";
 import { addToLocalStorage } from "../../utils/localStorage";
 import { TOKEN_KEY, USER_KEY } from "../../recoil/constance";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LoginSchema } from "./authSchema";
 import { AxiosError } from "axios";
+import { AxiosErrorResponse } from "../../type";
 
 export type TLoginData = {
   email: string;
   password: string;
 };
-
-interface LoginError {
-  response?: {
-    data?: {
-      message: string;
-    };
-  };
-}
 
 function Login() {
   const navigate = useNavigate();
@@ -58,8 +51,14 @@ function Login() {
     <div className="container py-16">
       <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
         <h1 className="text-2xl uppercase font-medium mb-1">Login</h1>
-        <p className="text-gray-600 text-sm mb-6">Welcome Back</p>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <p className="text-gray-600 text-sm">Welcome Back</p>
+        {isError && (
+          <p className="text-primary">
+            {(error as AxiosErrorResponse).response?.data?.message ||
+              "Invalid email or password"}
+          </p>
+        )}
+        <form onSubmit={handleSubmit(onSubmit)} className=" mt-6">
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="text-gray-600 mb-2 block">
@@ -74,12 +73,6 @@ function Login() {
               />
               {errors.email && (
                 <p className="text-primary text-sm">{errors.email.message}</p>
-              )}
-              {isError && (
-                <p className="text-primary">
-                  {(error as LoginError).response?.data?.message ||
-                    "Invalid email or password"}
-                </p>
               )}
             </div>
             <div>
@@ -125,13 +118,13 @@ function Login() {
                 } w-full text-white py-2 rounded`}
                 disabled={isLoading}
               >
-                {isLoading ? "Logging" : "Login"}
+                {isLoading ? "Logging..." : "Login"}
               </button>
               <p className="text-gray-600 my-2">
-                Don't have a account
-                <a href="#" className="text-primary">
+                Don't have a account{" "}
+                <Link to="/register" className="text-primary">
                   Register Here
-                </a>
+                </Link>
               </p>
             </div>
           </div>
