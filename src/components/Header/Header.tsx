@@ -6,9 +6,12 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { useRecoilValue } from "recoil";
 import { cartAtom } from "../../recoil";
+import { userAtom } from "../../recoil/atoms/LoginAtom";
 
 function TopBar() {
-  const cartItems = useRecoilValue(cartAtom);  
+  const cartItems = useRecoilValue(cartAtom);
+  const user = useRecoilValue(userAtom);
+
   return (
     <div>
       <header className="py-4 shadow-sm bg-white">
@@ -47,10 +50,11 @@ function TopBar() {
                 <BsCartPlus />
               </div>
               <div className="text-xs leading-3">Cart</div>
-              {cartItems.length >= 1&& 
-              <span className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                {cartItems.length}
-              </span>}
+              {cartItems.length >= 1 && (
+                <span className="absolute -right-3 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
+                  {cartItems.length}
+                </span>
+              )}
             </Link>
             <Link
               to="/login"
@@ -59,7 +63,9 @@ function TopBar() {
               <div className="text-2xl">
                 <BiUser />
               </div>
-              <div className="text-xs leading-3">Account</div>
+              <div className="text-xs leading-3">
+                {user?.id ? "Account " : "login"}
+              </div>
             </Link>
           </div>
         </div>

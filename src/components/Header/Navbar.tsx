@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../../recoil/atoms/LoginAtom";
 
 function Navbar() {
   return (
@@ -83,6 +85,7 @@ function NavDropDown() {
 }
 
 function NavLinks() {
+  const user = useRecoilValue(userAtom);
   const navLinks = [
     { title: "Home", link: "/" },
     { title: "Shop", link: "/shop" },
@@ -102,11 +105,8 @@ function NavLinks() {
           </Link>
         ))}
       </div>
-      <Link
-        to="/login"
-        className="text-gray-200 hover:text-white transition"
-      >
-        Account
+      <Link to="/login" className="text-gray-200 hover:text-white transition">
+        {user?.id ? "Hi " + user.name : "login"}
       </Link>
     </div>
   );

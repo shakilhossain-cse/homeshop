@@ -1,9 +1,9 @@
 import { selector } from "recoil";
 import cartAtom from "../atoms/CartAtom";
+import { SHIPPING_RATE, TAX_RATE } from "../constance";
 
 
-const TAX_RATE = 0.1;
-const SHIPPING_RATE = 0.05;
+
 
 export const cartSubtotalSelector = selector({
   key: "cartSubtotalSelector",

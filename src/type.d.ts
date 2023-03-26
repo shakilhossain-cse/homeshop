@@ -1,3 +1,10 @@
+export interface IUser {
+  id: number;
+  email: string;
+  name: string;
+  role: 'member'|'admin';
+}
+
 export interface IProduct {
   id: number;
   title: string;
