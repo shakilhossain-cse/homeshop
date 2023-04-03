@@ -34,6 +34,26 @@ export interface ICartData {
   product: IProduct;
 }
 
+interface IOrderItem {
+  price: number;
+  quantity: number;
+  size: string;
+  color: string;
+  product: IProduct;
+}
+
+export interface IOrder {
+  id: number;
+  paymentStatus: "pending"|"paid";
+  status: "processing"|"shipping"|"delivered";
+  subtotal: number;
+  total: number;
+  user_id: number;
+  created_at: string;
+  order_items: IOrderItem[];
+  orderId:string;
+}
+
 export interface AxiosErrorResponse {
   response?: {
     data?: {

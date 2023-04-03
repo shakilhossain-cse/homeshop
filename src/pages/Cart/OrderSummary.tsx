@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import {
   cartShippingSelector,
@@ -38,9 +39,9 @@ const OrderSummary = () => {
               </h2>
             </div>
           </div>
-          <a href="#" className="card-button uppercase my-4">
+          <Link to="/checkout" className="card-button uppercase my-4">
             Process to checkout
-          </a>
+          </Link>
         </div>
       </div>
     </div>

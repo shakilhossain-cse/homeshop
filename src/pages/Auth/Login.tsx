@@ -9,7 +9,6 @@ import { addToLocalStorage } from "../../utils/localStorage";
 import { TOKEN_KEY, USER_KEY } from "../../recoil/constance";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LoginSchema } from "./authSchema";
-import { AxiosError } from "axios";
 import { AxiosErrorResponse } from "../../type";
 
 export type TLoginData = {
@@ -33,6 +32,7 @@ function Login() {
   const redirect = new URLSearchParams(location.search).get("redirect");
   const path = redirect ? "/" + redirect : "/";
 
+  
   const { mutateAsync, isLoading, error, isError } = useMutation(loginRequest, {
     onSuccess: ({ token, user }) => {
       setToken(token);

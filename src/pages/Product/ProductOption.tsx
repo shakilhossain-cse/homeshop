@@ -12,6 +12,7 @@ function ProductOption({ data }: { data: IProduct }) {
   const [cart, setCart] = useRecoilState(cartAtom);
 
   const handelAddToCart = (product: IProduct, quantity: number) => {
+    if (data.quantity <= 0||data.quantity <  quantity) return;  
     if (isAddToCart(product.id) !== true) {
       const newCart = addToCart(cart, product, quantity);
       setCart(newCart);
@@ -22,7 +23,6 @@ function ProductOption({ data }: { data: IProduct }) {
     const findCart = cart.find((item) => item.id === cartId);
     return !!findCart;
   };
-
   const [itemQuantity, setItemQuantity] = useState(data.quantity >= 1 ? 1 : 0);
   const [qtyError, setQtyError] = useState("");
 

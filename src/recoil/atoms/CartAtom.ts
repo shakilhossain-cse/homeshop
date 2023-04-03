@@ -46,6 +46,7 @@ export const incrementQuantity = (cart: ICartData[], productId: number) => {
   addToLocalStorage(CART_KEY, updatedCart);
   return updatedCart;
 };
+
 export const decrementQuantity = (cart: ICartData[], productId: number) => {
   const itemIndex = cart.findIndex((cartItem) => cartItem.id === productId);
   const updatedCart = [...cart];
