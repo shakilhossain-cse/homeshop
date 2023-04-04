@@ -14,6 +14,8 @@ import RequireAuth from "./RequireAuth";
 import { Order } from "../pages/User";
 import ChangePassword from "../pages/User/Profile/ChangePassword";
 import ProfileInfo from "../pages/User/Profile/ProfileInfo";
+import Wishlist from "../pages/User/Wishlist";
+import Dashboard from "../pages/Admin/Dashboard";
 
 function Routes() {
   return (
@@ -38,6 +40,18 @@ function Routes() {
           <Route index element={<Order />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="info" element={<ProfileInfo />} />
+          <Route path="wishlist" element={<Wishlist />} />
+        </Route>
+        <Route
+          path="admin/"
+          element={
+            <RequireAuth>
+              <AuthLayout />
+            </RequireAuth>
+          }
+        >
+          <Route index element={<Dashboard />} />
+         
         </Route>
       </Route>
     </Router>

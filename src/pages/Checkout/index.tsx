@@ -10,7 +10,6 @@ import RequireAuth from "../../routes/RequireAuth";
 import { getBillingData, upsertBilling } from "../../services/billingService";
 import BillingDetails from "./BillingDetails";
 import OrderSummary from "./OrderSummary";
-import { AxiosErrorResponse } from "../../type";
 
 export interface IBillingInputs {
   firstName: string;
@@ -33,23 +32,24 @@ function Checkout() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<IBillingInputs>({
     resolver: zodResolver(BillingInputsSchema),
     defaultValues: {
-      firstName: data?.firstName ? data.firstName : "",
-      lastName: data?.lastName ? data.lastName : "",
-      companyName: data?.companyName ? data.companyName : "",
-      country: data?.country ? data.country : "",
-      email: data?.email ? data.email : "",
-      phoneNumber: data?.phoneNumber ? data.phoneNumber : "",
-      streetAddress: data?.streetAddress ? data.streetAddress : "",
-      townCity: data?.townCity ? data.townCity : "",
-      zipCode: data?.zipCode ? data.zipCode : "",
+      firstName: "",
+      lastName: "",
+      companyName: "",
+      country: "",
+      email: "",
+      phoneNumber: "",
+      streetAddress: "",
+      townCity: "",
+      zipCode: "",
     },
   });
 
-  const { isError, error,mutateAsync } = useMutation(upsertBilling, {
+  const { isError, error, mutateAsync } = useMutation(upsertBilling, {
     onSuccess: () => {
       navigate("/payment");
     },
@@ -70,7 +70,19 @@ function Checkout() {
   if (isError) {
     return <div>Error: {error.message}</div>;
   }
-  console.log("this is error " + data);
+  useEffect(() => {
+    if (data) {
+      setValue("firstName", data.firstName);
+      setValue("lastName", data.lastName);
+      setValue("companyName", data.companyName);
+      setValue("country", data.country);
+      setValue("email", data.email);
+      setValue("phoneNumber", data.phoneNumber);
+      setValue("streetAddress", data.streetAddress);
+      setValue("townCity", data.townCity);
+      setValue("zipCode", data.zipCode);
+    }
+  }, [data]);
 
   return (
     <RequireAuth>

@@ -13,7 +13,7 @@ function SearchBar() {
 
   const handelSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/shop?title=${search},hello`)
+    navigate(`/shop?title=${search}`)
   };
 
   return (

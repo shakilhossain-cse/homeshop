@@ -6,6 +6,9 @@ import { removeFromLocalStorage } from "../../utils/localStorage";
 import { TOKEN_KEY, USER_KEY } from "../../recoil/constance";
 import { sidebarDAta } from "./sidebardata";
 import { FiLogOut } from "react-icons/fi";
+import { useMutation } from "@tanstack/react-query";
+import { logoutRequest } from "../../services/authService";
+import { toast } from "react-toastify";
 
 function Sidebar() {
   const location = useLocation();
@@ -13,7 +16,9 @@ function Sidebar() {
   const setUser = useSetRecoilState(userAtom);
   const setToken = useSetRecoilState(tokenAtom);
   const user = useRecoilValue(userAtom);
-  const handelLogout = () => {
+
+  const handelLogout = async () => {
+    toast.success("Your logout successfully");
     removeFromLocalStorage(TOKEN_KEY);
     removeFromLocalStorage(USER_KEY);
     setUser(null);

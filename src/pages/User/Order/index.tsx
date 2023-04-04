@@ -23,7 +23,7 @@ function Order() {
 const OrderItem = ({ product: order }: { product: IOrder }) => {
   return (
     <div className="space-y-1 border border-gray-300 p-4 mb-3">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center">
         <div className="flex gap-2">
           {order.order_items.map((item, idx) => (
             <img
@@ -38,7 +38,7 @@ const OrderItem = ({ product: order }: { product: IOrder }) => {
           View Order
         </button>
       </div>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 md:grid-cols-5 ">
         <div>
           <h4>Order Number</h4>
           <p className="font-light bg-gray-300 inline-block opacity-50 px-1 rounded">
