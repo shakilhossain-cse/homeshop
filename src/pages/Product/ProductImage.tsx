@@ -1,49 +1,20 @@
 import React, { useState } from "react";
 
-function ProductImage({ images }: { images: string }) {
-  const [productImage, setProductImage] = useState(images);
+function ProductImage({ images }: { images: any }) {
+  const [productImage, setProductImage] = useState(images[0].url);
+
   return (
     <div>
       <img src={productImage} alt="product" className="w-full" />
       <div className="grid grid-cols-5 gap-4 mt-4">
+        {images.map((image: any) => (
           <img
-            src={images}
+            src={image?.url}
             alt="product-image"
             className="w-full cursor-pointer border"
-            onClick={() =>
-              setProductImage(images)
-            }
+            onClick={() => setProductImage(image?.url)}
           />
-        <img
-          src="https://themes.rslahmed.dev/rafcart/assets/images/product10.jpg"
-          alt="product-image"
-          className="w-full cursor-pointer border border-primary"
-          onClick={() =>
-            setProductImage(
-              "https://themes.rslahmed.dev/rafcart/assets/images/product10.jpg"
-            )
-          }
-        />
-        <img
-          src="https://themes.rslahmed.dev/rafcart/assets/images/product10.jpg"
-          alt="product-image"
-          className="w-full cursor-pointer border"
-          onClick={() =>
-            setProductImage(
-              "https://themes.rslahmed.dev/rafcart/assets/images/product10.jpg"
-            )
-          }
-        />
-        <img
-          src="https://themes.rslahmed.dev/rafcart/assets/images/product10.jpg"
-          alt="product-image"
-          className="w-full cursor-pointer border"
-          onClick={() =>
-            setProductImage(
-              "https://themes.rslahmed.dev/rafcart/assets/images/product10.jpg"
-            )
-          }
-        />
+        ))}
       </div>
     </div>
   );

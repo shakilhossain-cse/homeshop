@@ -38,55 +38,53 @@ const Shop = () => {
   });
   const [search, setSearch] = useSearchParams();
   const [page, setPage] = useState(1);
-  const { isLoading, isError, error, data, isFetching, isPreviousData } =
-    useQuery({
-      queryKey: ["product", page],
-      queryFn: () => filterProducts(page),
-      keepPreviousData: true,
-    });
+  const { data } = useQuery({
+    queryKey: ["product", page],
+    queryFn: () => filterProducts(page),
+    keepPreviousData: true,
+  });
 
-    const handleFilterState = (key: keyof IFilterData, value: any): void => {
-      setFilterData((prevState) => {
-        if (key === "categories") {
-          const categories = [...prevState.categories];
-          const index = categories.indexOf(value);
-          if (index === -1) {
-            categories.push(value);
-          } else {
-            categories.splice(index, 1);
-          }
-          return {
-            ...prevState,
-            categories,
-          };
-        }
-        if (key === "brands") {
-          const brands = [...prevState.brands];
-          const index = brands.indexOf(value);
-          if (index === -1) {
-            brands.push(value);
-          } else {
-            brands.splice(index, 1);
-          }
-          return { ...prevState, brands };
-        }
-        if (key === "priceRange") {
-          const priceRange = {
-            ...prevState.priceRange,
-            ...value,
-          };
-          return {
-            ...prevState,
-            priceRange,
-          };
+  const handleFilterState = (key: keyof IFilterData, value: any): void => {
+    setFilterData((prevState) => {
+      if (key === "categories") {
+        const categories = [...prevState.categories];
+        const index = categories.indexOf(value);
+        if (index === -1) {
+          categories.push(value);
+        } else {
+          categories.splice(index, 1);
         }
         return {
           ...prevState,
-          [key]: value,
+          categories,
         };
-      });
-    };
-    
+      }
+      if (key === "brands") {
+        const brands = [...prevState.brands];
+        const index = brands.indexOf(value);
+        if (index === -1) {
+          brands.push(value);
+        } else {
+          brands.splice(index, 1);
+        }
+        return { ...prevState, brands };
+      }
+      if (key === "priceRange") {
+        const priceRange = {
+          ...prevState.priceRange,
+          ...value,
+        };
+        return {
+          ...prevState,
+          priceRange,
+        };
+      }
+      return {
+        ...prevState,
+        [key]: value,
+      };
+    });
+  };
 
   const handelPaginate = (page: any) => {
     setPage(page);
@@ -98,9 +96,9 @@ const Shop = () => {
       setPage(Number(search.get("page")));
     }
     if (search.get("title")) {
-      handleFilterState('search',search.get('title'))
+      handleFilterState("search", search.get("title"));
     }
-  }, [page,search.get("title")]);
+  }, [page, search.get("title")]);
 
   console.log(filterData);
 

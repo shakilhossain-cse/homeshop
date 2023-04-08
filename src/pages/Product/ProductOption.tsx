@@ -95,7 +95,7 @@ function ProductOption({ data }: { data: IProduct }) {
           <p className="text-base text-gray-400 line-through">${data.price}</p>
         )}
       </div>
-      <p className="mt-3 text-gray-600">{data?.sort_description}</p>
+      <p className="mt-3 text-gray-600">{data?.short_description}</p>
       {/* size filter  */}
       <div className="pt-4">
         <h3 className="text-sm mb-1 text-gray-800 uppercase">Size</h3>
@@ -114,21 +114,7 @@ function ProductOption({ data }: { data: IProduct }) {
         </div>
       </div>
       {/* colors filter  */}
-      <div className="pt-4">
-        <h3 className="text-sm mb-1 text-gray-800 uppercase">Color</h3>
-        <div className="mt-4 flex items-center gap-2">
-          {data?.colors.map((color) => (
-            <div className="color-selector" key={color}>
-              <input type="radio" name="size" className="hidden" id={color} />
-              <label
-                htmlFor={color}
-                className="border border-gray-200 rounded-sm h-6 w-6 cursor-pointer shadow-sm block "
-                style={{ background: color }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
+
       {/* quantity */}
       <div className="mt-4">
         <h3 className="text-sm text-gray-800 uppercase mb-1">quantity</h3>

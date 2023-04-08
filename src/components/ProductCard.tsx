@@ -23,7 +23,11 @@ function ProductCard({ product }: { product: IProduct }) {
     <div className="card group">
       {/* product image */}
       <div className="card-image">
-        <img src={product.images} alt="product-image" className="w-full h-60" />
+        <img
+          src={product.images[0].url}
+          alt="product-image"
+          className="w-full h-60"
+        />
         <div className="card-icons">
           <a href="#" className="card-icon-link">
             <AiOutlineSearch />

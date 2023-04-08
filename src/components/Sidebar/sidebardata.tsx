@@ -1,12 +1,13 @@
 import { AiOutlineIdcard, AiOutlineHeart } from "react-icons/ai";
 import { FiGift } from "react-icons/fi";
-interface ISidebarItem {
+export interface ISidebarItem {
   id: number;
   title: string;
   links: string;
   icon: JSX.Element;
   isBold: boolean;
-  access: "member" | "admin";
+  access: string[];
+  // "member" | "admin";
   underLine: boolean;
 }
 export const sidebarDAta: ISidebarItem[] = [
@@ -16,7 +17,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user",
     icon: <AiOutlineIdcard />,
     isBold: true,
-    access: "member",
+    access: ["member"],
     underLine: false,
   },
   {
@@ -25,7 +26,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/admin",
     icon: <AiOutlineIdcard />,
     isBold: true,
-    access: "admin",
+    access: ["admin"],
     underLine: false,
   },
   {
@@ -34,16 +35,16 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/admin/add-product",
     icon: <AiOutlineIdcard />,
     isBold: false,
-    access: "admin",
+    access: ["admin"],
     underLine: false,
   },
   {
-    id: 11,
+    id: 12,
     title: "Products List",
     links: "/admin/product-list",
     icon: <AiOutlineIdcard />,
     isBold: false,
-    access: "admin",
+    access: ["admin"],
     underLine: false,
   },
   {
@@ -52,7 +53,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/info",
     icon: <AiOutlineIdcard />,
     isBold: false,
-    access: "member",
+    access: ["member"],
     underLine: false,
   },
   {
@@ -61,7 +62,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/change-password",
     icon: <AiOutlineIdcard />,
     isBold: false,
-    access: "admin",
+    access: ["admin",'member'],
     underLine: true,
   },
   {
@@ -70,7 +71,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/history",
     icon: <FiGift />,
     isBold: true,
-    access: "member",
+    access: ["member"],
     underLine: false,
   },
   {
@@ -79,7 +80,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/cancellation",
     icon: <FiGift />,
     isBold: false,
-    access: "member",
+    access: ["member"],
     underLine: false,
   },
   {
@@ -88,7 +89,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/reviews",
     icon: <FiGift />,
     isBold: false,
-    access: "member",
+    access: ["member"],
     underLine: true,
   },
   {
@@ -97,7 +98,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/wishlist",
     icon: <AiOutlineHeart />,
     isBold: true,
-    access: "member",
+    access: ["member"],
     underLine: true,
   },
 ];

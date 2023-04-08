@@ -2,9 +2,11 @@ export interface IUser {
   id: number;
   email: string;
   name: string;
-  role: 'member'|'admin';
+  role: "member" | "admin";
 }
-
+interface Iimage{
+  url:string
+}
 export interface IProduct {
   id: number;
   title: string;
@@ -14,14 +16,13 @@ export interface IProduct {
   brand: string;
   quantity: number;
   discount_price: number | null;
-  sort_description: string;
+  short_description: string;
   description: string;
   category: string;
-  images: string;
+  images: Iimage[];
   sizes: string[];
-  colors: string[];
-  rating: string[];
 }
+
 export interface IPagination {
   url: string | null;
   label: string;
@@ -44,14 +45,14 @@ interface IOrderItem {
 
 export interface IOrder {
   id: number;
-  paymentStatus: "pending"|"paid";
-  status: "processing"|"shipping"|"delivered";
+  paymentStatus: "pending" | "paid";
+  status: "processing" | "shipping" | "delivered";
   subtotal: number;
   total: number;
   user_id: number;
   created_at: string;
   order_items: IOrderItem[];
-  orderId:string;
+  orderId: string;
 }
 
 export interface AxiosErrorResponse {
@@ -60,4 +61,10 @@ export interface AxiosErrorResponse {
       message: string;
     };
   };
+}
+
+export interface IFile {
+  file: File;
+  preview: string;
+  name: string;
 }

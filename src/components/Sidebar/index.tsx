@@ -4,7 +4,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { tokenAtom, userAtom } from "../../recoil/atoms/LoginAtom";
 import { removeFromLocalStorage } from "../../utils/localStorage";
 import { TOKEN_KEY, USER_KEY } from "../../recoil/constance";
-import { sidebarDAta } from "./sidebardata";
+import { ISidebarItem, sidebarDAta } from "./sidebardata";
 import { FiLogOut } from "react-icons/fi";
 import { useMutation } from "@tanstack/react-query";
 import { logoutRequest } from "../../services/authService";
@@ -26,6 +26,14 @@ function Sidebar() {
     navigate("/");
   };
 
+  const isAllowed = (data: ISidebarItem): Boolean => {
+    if (user === null) {
+      handelLogout();
+      return false;
+    }
+    return !!data.access.includes(user?.role);
+  };
+
   return (
     <div className="col-span-12  md:col-span-3">
       {/* profile */}
@@ -44,9 +52,9 @@ function Sidebar() {
       </div>
       <div className=" bg-white rounded shadow p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
         <div className="">
-          {sidebarDAta.map((data) => {
-            return (
-              data.access === user?.role && (
+          {sidebarDAta.map(
+            (data) =>
+              isAllowed(data) && (
                 <Link
                   to={data.links}
                   className={`${
@@ -68,8 +76,7 @@ function Sidebar() {
                   {data.title}
                 </Link>
               )
-            );
-          })}
+          )}
           <button
             onClick={handelLogout}
             className={`hover:text-primary flex items-center  capitalize  py-1 font-medium mt-3 `}

@@ -7,7 +7,7 @@ import { tokenAtom, userAtom } from "../recoil/atoms/LoginAtom";
 
 export const HttpClient = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  timeout: 1000,
+  timeout: 5000,
   headers: { Accept: "application/json" },
 });
 

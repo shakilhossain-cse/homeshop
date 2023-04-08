@@ -16,6 +16,8 @@ import ChangePassword from "../pages/User/Profile/ChangePassword";
 import ProfileInfo from "../pages/User/Profile/ProfileInfo";
 import Wishlist from "../pages/User/Wishlist";
 import Dashboard from "../pages/Admin/Dashboard";
+import AddProduct from "../pages/Admin/Products/AddProduct";
+import ProductList from "../pages/Admin/Products/ProductList";
 
 function Routes() {
   return (
@@ -51,6 +53,8 @@ function Routes() {
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="add-product" element={<AddProduct />} />
+          <Route path="product-list" element={<ProductList />} />
          
         </Route>
       </Route>
