@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes as Router, Route, Outlet } from "react-router-dom";
+import { Routes as Router, Route } from "react-router-dom";
 import AuthLayout from "../components/layouts/AuthLayout";
 import { UserLayout } from "../components/layouts/UserLayout";
 import Login from "../pages/Auth/Login";
@@ -18,6 +18,10 @@ import Wishlist from "../pages/User/Wishlist";
 import Dashboard from "../pages/Admin/Dashboard";
 import AddProduct from "../pages/Admin/Products/AddProduct";
 import ProductList from "../pages/Admin/Products/ProductList";
+import User from "../pages/Admin/User";
+import AllOrder from "../pages/Admin/Order";
+import OrderDetails from "../pages/User/Order/OrderDetails";
+
 
 function Routes() {
   return (
@@ -40,6 +44,7 @@ function Routes() {
           }
         >
           <Route index element={<Order />} />
+          <Route path="order/:id" element={<OrderDetails />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="info" element={<ProfileInfo />} />
           <Route path="wishlist" element={<Wishlist />} />
@@ -55,7 +60,9 @@ function Routes() {
           <Route index element={<Dashboard />} />
           <Route path="add-product" element={<AddProduct />} />
           <Route path="product-list" element={<ProductList />} />
-         
+          <Route path="users" element={<User />} />
+          <Route path="orders" element={<AllOrder />} />
+          <Route path="cancel-order" element={<AllOrder />} />
         </Route>
       </Route>
     </Router>

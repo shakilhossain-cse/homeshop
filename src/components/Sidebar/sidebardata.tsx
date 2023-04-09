@@ -1,5 +1,7 @@
 import { AiOutlineIdcard, AiOutlineHeart } from "react-icons/ai";
 import { FiGift } from "react-icons/fi";
+import { BiUser } from "react-icons/bi";
+
 export interface ISidebarItem {
   id: number;
   title: string;
@@ -39,9 +41,54 @@ export const sidebarDAta: ISidebarItem[] = [
     underLine: false,
   },
   {
-    id: 12,
+    id: 25,
     title: "Products List",
     links: "/admin/product-list",
+    icon: <AiOutlineIdcard />,
+    isBold: false,
+    access: ["admin"],
+    underLine: true,
+  },
+  {
+    id: 12,
+    title: "Users",
+    links: "/admin/users",
+    icon: <BiUser />,
+    isBold: true,
+    access: ["admin"],
+    underLine: false,
+  },
+  {
+    id: 18,
+    title: "Add Category",
+    links: "/admin/add-category",
+    icon: <AiOutlineIdcard />,
+    isBold: false,
+    access: ["admin"],
+    underLine: false,
+  },
+  {
+    id: 19,
+    title: "Category List",
+    links: "/admin/category-list",
+    icon: <AiOutlineIdcard />,
+    isBold: false,
+    access: ["admin"],
+    underLine: true,
+  },
+  {
+    id: 13,
+    title: "Order",
+    links: "/admin/orders",
+    icon: <FiGift />,
+    isBold: true,
+    access: ["admin"],
+    underLine: false,
+  },
+  {
+    id: 14,
+    title: "Cancel Order",
+    links: "/admin/cancel-order",
     icon: <AiOutlineIdcard />,
     isBold: false,
     access: ["admin"],
@@ -62,7 +109,7 @@ export const sidebarDAta: ISidebarItem[] = [
     links: "/user/change-password",
     icon: <AiOutlineIdcard />,
     isBold: false,
-    access: ["admin",'member'],
+    access: ["admin", "member"],
     underLine: true,
   },
   {

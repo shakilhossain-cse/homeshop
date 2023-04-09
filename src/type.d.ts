@@ -4,7 +4,7 @@ export interface IUser {
   name: string;
   role: "member" | "admin";
 }
-interface Iimage{
+interface Image{
   url:string
 }
 export interface IProduct {
@@ -19,8 +19,16 @@ export interface IProduct {
   short_description: string;
   description: string;
   category: string;
-  images: Iimage[];
+  images: Image[];
   sizes: string[];
+}
+
+export interface IData {
+  current_page: number;
+  total: number;
+  links: IPagination[];
+  prev_page_url: string | null;
+  next_page_url: string | null;
 }
 
 export interface IPagination {
@@ -46,7 +54,7 @@ interface IOrderItem {
 export interface IOrder {
   id: number;
   paymentStatus: "pending" | "paid";
-  status: "processing" | "shipping" | "delivered";
+  status: "processing" | "shipping" | "delivered"|"cancel";
   subtotal: number;
   total: number;
   user_id: number;

@@ -36,28 +36,10 @@ function Payment() {
     onSuccess(data) {
       setCart([]);
       removeFromLocalStorage(CART_KEY);
-      toast.success(data.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.success(data.message);
     },
     onError(error: any) {
-      toast.error(error.message, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      toast.error(error.message);
     },
   });
   const handelConfirm = () => {

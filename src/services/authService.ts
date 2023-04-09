@@ -1,3 +1,4 @@
+import { IAllUserData } from "../pages/Admin/User";
 import { TLoginData } from "../pages/Auth/Login";
 import { TRegisterData } from "../pages/Auth/Register";
 import { IChangePasswordData } from "../pages/User/Profile/ChangePassword";
@@ -21,3 +22,11 @@ export const logoutRequest = () =>
   HttpClient.post("/logout").then((res) => res.data);
 export const changePasswordRequest = (data: IChangePasswordData) =>
   HttpClient.post("/change-password", data).then((res) => res.data);
+
+export const getAllUser = (
+  page: number,
+  search?: string
+): Promise<IAllUserData> =>
+  HttpClient.get(`/users`, { params: { page, search } }).then(
+    (res) => res.data
+  );

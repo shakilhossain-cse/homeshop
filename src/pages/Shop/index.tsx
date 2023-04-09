@@ -4,18 +4,13 @@ import { useLocation, useSearchParams } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import Pagination from "../../components/Pagination";
 import { filterProducts, getAllProducts } from "../../services/productService";
-import { IPagination, IProduct } from "../../type";
+import { IData, IPagination, IProduct } from "../../type";
 import { getCategoryValuesFromUrl } from "../../utils/getCategoryValuesFromUrl";
 import ShopProducts from "./ShopProducts";
 import ShopSidebar from "./ShopSidebar";
 
-interface IShopProduct {
-  current_page: number;
+interface IShopProduct extends IData {
   data: IProduct[];
-  total: number;
-  links: IPagination[];
-  prev_page_url: string | null;
-  next_page_url: string | null;
 }
 export interface IFilterData {
   categories: string[];
@@ -38,7 +33,7 @@ const Shop = () => {
   });
   const [search, setSearch] = useSearchParams();
   const [page, setPage] = useState(1);
-  const { data } = useQuery({
+  const { data } = useQuery<IShopProduct>({
     queryKey: ["product", page],
     queryFn: () => filterProducts(page),
     keepPreviousData: true,
@@ -100,7 +95,6 @@ const Shop = () => {
     }
   }, [page, search.get("title")]);
 
-  console.log(filterData);
 
   return (
     <>

@@ -7,7 +7,7 @@ import {
   filterProducts,
   getAllProducts,
 } from "../../../services/productService";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Pagination from "../../../components/Pagination";
 
@@ -30,9 +30,11 @@ function ProductList() {
     await mutateAsync(productId);
     queryClient.invalidateQueries(["product", page]);
   };
+
   const isProductAvailable = (): Boolean => {
     return data?.data.length > 0;
   };
+  
   return (
     <div className="shadow rounded px-6 pt-5 pb-7">
       <h3 className="text-lg font-medium mb-4 capitalize">Product List</h3>
@@ -40,7 +42,7 @@ function ProductList() {
         {isProductAvailable() ? (
           data.data.map((product: IProduct) => (
             <>
-              <div className="flex items-center justify-between gap-6 p-4 border border-gray-200 rounded ">
+              <div className="flex flex-wrap items-center justify-between gap-6 p-4 border border-gray-200 rounded ">
                 <div className="w-28 flex-shrink-0">
                   <img
                     src={product.images[0].url}
@@ -49,9 +51,11 @@ function ProductList() {
                   />
                 </div>
                 <div className="w-1/3">
-                  <h2 className="text-gray-800 text-xl font-medium uppercase">
-                    {product.title}
-                  </h2>
+                  <Link to={`/product/${product.slug}`}>
+                    <h2 className="text-gray-800 text-xl font-medium uppercase">
+                      {product.title.slice(0, 15) + "..."}
+                    </h2>
+                  </Link>
                   <p
                     className={`${
                       product.quantity > 0 ? "text-green-600" : "text-primary"

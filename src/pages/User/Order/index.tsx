@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getRecentOrders } from "../../../services/orderService";
 import { IOrder, IProduct } from "../../../type";
 import { dateFormate } from "../../../utils/dataformate";
+import { Link } from "react-router-dom";
 
 function Order() {
   const { data } = useQuery<IOrder[]>(["orders"], getRecentOrders);
@@ -20,7 +21,8 @@ function Order() {
   );
 }
 
-const OrderItem = ({ product: order }: { product: IOrder }) => {
+export const OrderItem = ({ product: order }: { product: IOrder }) => {
+  const baseUrl = window.location.origin;
   return (
     <div className="space-y-1 border border-gray-300 p-4 mb-3">
       <div className="flex flex-wrap justify-between items-center">
@@ -28,15 +30,18 @@ const OrderItem = ({ product: order }: { product: IOrder }) => {
           {order.order_items.map((item, idx) => (
             <img
               key={idx}
-              src={item.product.images}
+              src={item.product.images[0].url}
               alt="image"
               className="w-24"
             />
           ))}
         </div>
-        <button className="text-primary border border-primary px-4 rounded font-medium hover:bg-primary hover:text-white transition py-2">
+        <Link
+          to={`${baseUrl}/user/order/${order.id}`}
+          className="text-primary border border-primary px-4 rounded font-medium hover:bg-primary hover:text-white transition py-2"
+        >
           View Order
-        </button>
+        </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 md:grid-cols-5 ">
         <div>
@@ -81,27 +86,32 @@ const OrderItem = ({ product: order }: { product: IOrder }) => {
                   className="absolute top-0 left-0 h-full bg-yellow-500 rounded-full"
                   style={{ width: "66.66%" }}
                 />
-              ) : (
+              ) : order.status === "delivered" ? (
                 <div
                   className="absolute top-0 left-0 h-full bg-green-500 rounded-full"
+                  style={{ width: "99.66%" }}
+                />
+              ) : (
+                <div
+                  className="absolute top-0 left-0 h-full bg-red-500 rounded-full"
                   style={{ width: "99.66%" }}
                 />
               )}
             </div>
             <div className="flex justify-between text-sm text-gray-600">
-              {order.status === "processing" ? (
-                <span className="text-orange-500 font-medium">
-                  {order.status}
-                </span>
-              ) : order.status === "shipping" ? (
-                <span className="text-yellow-500 font-medium">
-                  {order.status}
-                </span>
-              ) : (
-                <span className="text-green-500 font-medium">
-                  {order.status}
-                </span>
-              )}
+              <span
+                className={`${
+                  order.status === "processing"
+                    ? "text-orange-500"
+                    : order.status === "shipping"
+                    ? "text-yellow-500"
+                    : order.status === "delivered"
+                    ? "text-green-500"
+                    : "text-primary"
+                } font-medium`}
+              >
+                {order.status}
+              </span>
             </div>
           </div>
         </div>
