@@ -10,3 +10,16 @@ export function getOrderStatus(status:string) {
         return { processing: false, shipping: false, delivered: false, cancel: true };
     }
   }
+
+  export function getOrderData (path:string) {
+    switch (path) {
+      case '/admin/orders':
+        return 'processing'
+      case '/admin/shipping-order':
+        return 'shipping'
+      case '/admin/delivered-order':
+        return 'delivered'
+      case '/admin/cancel-order':
+        return 'cancel'
+    }
+  }

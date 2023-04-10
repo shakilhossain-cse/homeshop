@@ -1,24 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getAllOrders } from "../../../services/orderService";
 import { IData, IOrder } from "../../../type";
 import { dateFormate } from "../../../utils/dataformate";
 import { OrderItem } from "../../User/Order";
 import Pagination from "../../../components/Pagination";
+import { useLocation, useParams } from "react-router-dom";
+import { getOrderData } from "../../../utils";
 
 export interface IAllOrder extends IData {
   data: IOrder[];
 }
 
 function AllOrder() {
+  const { pathname } = useLocation();
   const [page, setPage] = useState(1);
-  const { data } = useQuery<IAllOrder>(["all-orders", page], () =>
-    getAllOrders(page)
+  const { data, refetch } = useQuery<IAllOrder>(["all-orders", page], () =>
+    getAllOrders(getOrderData(pathname), page)
   );
 
   const handelPaginate = (page: number) => {
     setPage(page);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [pathname]);
 
   return (
     <div>

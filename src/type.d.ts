@@ -61,6 +61,8 @@ export interface IOrder {
   created_at: string;
   order_items: IOrderItem[];
   orderId: string;
+  shipping:number;
+  tax:number;
 }
 
 export interface AxiosErrorResponse {

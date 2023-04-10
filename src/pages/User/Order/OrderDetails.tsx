@@ -8,26 +8,32 @@ import { dateFormate } from "../../../utils/dataformate";
 import { getOrderStatus } from "../../../utils";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../../recoil/atoms/LoginAtom";
+import { IBillingInputs } from "../../Checkout";
+
+interface IOrderDetails {
+  orders: IOrder;
+  billing: IBillingInputs;
+}
 function OrderDetails() {
   const { id } = useParams();
-  
   const user = useRecoilValue(userAtom);
-  const { data } = useQuery<IOrder>(["order", id], () =>
+  const { data } = useQuery<IOrderDetails>(["order", id], () =>
     getSpecificOrder(Number(id))
   );
   const queryClient = useQueryClient();
 
   // const { processing, shipping, delivered, cancel } =
-  const orderStatus = getOrderStatus(data?.status ?? "processing");
+  const orderStatus = getOrderStatus(data?.orders.status ?? "processing");
   const { mutateAsync } = useMutation(updateStatus);
 
   const handleStatus = async (status: string) => {
-    if (user?.role !== "admin") return;
-    if (!data?.id) return;
-    if (orderStatus?.delivered) return;
-    if (data?.status === status) return;
-    await mutateAsync({ id: data.id, status });
-    queryClient.invalidateQueries(["order", id]);
+    if (user?.role === "admin" || status === "cancel") {
+      if (!data?.orders.id) return;
+      if (orderStatus?.delivered) return;
+      if (data?.orders.status === status) return;
+      await mutateAsync({ id: data.orders.id, status });
+      queryClient.invalidateQueries(["order", id]);
+    }
   };
   console.log(data);
 
@@ -38,18 +44,18 @@ function OrderDetails() {
         <div className="col-span-3">
           <h3 className="font-medium">Order Number</h3>
           <p className="mt-2  text-sm bg-slate-300 px-3 py-1 inline-block rounded font-semibold text-gray-700">
-            {data?.orderId}
+            {data?.orders.orderId}
           </p>
         </div>
         <div className="col-span-3">
           <h3 className="font-medium">Order Date</h3>
           <p className="mt-2 font-light text-sm">
-            {data?.created_at && dateFormate(data?.created_at)}
+            {data?.orders.created_at && dateFormate(data?.orders.created_at)}
           </p>
         </div>
         <div className="col-span-3">
           <h3 className="font-medium">Payment</h3>
-          {data?.paymentStatus === "pending" ? (
+          {data?.orders.paymentStatus === "pending" ? (
             <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
               Pending
             </span>
@@ -143,10 +149,10 @@ function OrderDetails() {
       )}
 
       <div className="space-y-4">
-        {data?.order_items.map((item) => (
+        {data?.orders.order_items.map((item) => (
           <div
             key={item.product.id}
-            className="flex items-center justify-between gap-6 p-4 border border-gray-200 rounded "
+            className="flex items-center flex-wrap justify-between gap-6 p-4 border border-gray-200 rounded "
           >
             <div className="w-28 flex-shrink-0">
               <img
@@ -168,6 +174,52 @@ function OrderDetails() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="">
+        <div className="my-4 flex flex-col justify-center border-t-2 font-bold">
+          <div className="mt-3 self-end w-full">
+            <div className="flex justify-between">
+              <h4 className="text-primary">Sub Total</h4>
+              <p>{data?.orders.subtotal}</p>
+            </div>
+            <div className="flex justify-between">
+              <h4 className="text-primary">Tax</h4>
+              <p>{data?.orders.tax}</p>
+            </div>
+            <div className="flex justify-between">
+              <h4 className="text-primary">Shipping</h4>
+              <p>{data?.orders.shipping}</p>
+            </div>
+            <div className="flex justify-between">
+              <h4 className="text-primary">Total</h4>
+              <p>{data?.orders.total}</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 className="my-3">User Information</h3>
+
+          <div className="">
+            <table className="w-full border text-left text-sm font-light dark:border-neutral-500">
+              <tbody>
+                {Object.entries(data?.billing ?? {})
+                  .slice(1, -3)
+                  .map((item, idx) => (
+                    <tr className="border-b dark:border-neutral-500" key={idx}>
+                      {item.map((data, i) => (
+                        <td
+                          className="whitespace-nowrap border-r px-6 py-4 font-medium dark:border-neutral-500"
+                          key={i}
+                        >
+                          {data}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

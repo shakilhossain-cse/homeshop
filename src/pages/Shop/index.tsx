@@ -3,13 +3,17 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import BreadCrumb from "../../components/BreadCrumb";
 import Pagination from "../../components/Pagination";
-import { filterProducts, getAllProducts } from "../../services/productService";
+import {
+  filterProducts,
+  getAllProducts,
+  getFilteredProducts,
+} from "../../services/productService";
 import { IData, IPagination, IProduct } from "../../type";
 import { getCategoryValuesFromUrl } from "../../utils/getCategoryValuesFromUrl";
 import ShopProducts from "./ShopProducts";
 import ShopSidebar from "./ShopSidebar";
 
-interface IShopProduct extends IData {
+export interface IShopProduct extends IData {
   data: IProduct[];
 }
 export interface IFilterData {
@@ -21,6 +25,7 @@ export interface IFilterData {
   };
   size: string;
   search: string;
+  sortBy: "random" | "low_to_high" | "high_to_low" | "latest";
   // [key: string]: string[] | number[] | string;
 }
 const Shop = () => {
@@ -30,15 +35,26 @@ const Shop = () => {
     priceRange: { min: null, max: null },
     size: "",
     search: "",
+    sortBy: "random",
   });
   const [search, setSearch] = useSearchParams();
-  const [page, setPage] = useState(1);
-  const { data } = useQuery<IShopProduct>({
-    queryKey: ["product", page],
-    queryFn: () => filterProducts(page),
-    keepPreviousData: true,
-  });
+  const [page, setPage] = useState<any>(1);
 
+  const params = {
+    categories: filterData.categories.join(","),
+    brands: filterData.brands.join(","),
+    min_price: filterData.priceRange.min,
+    max_price: filterData.priceRange.max,
+    size: filterData.size,
+    search: filterData.search,
+    per_page: 10,
+    sort_by: filterData.sortBy,
+  };
+
+  const { data, refetch } = useQuery<IShopProduct>(
+    ["product", filterData],
+    () => getFilteredProducts(params, page)
+  );
   const handleFilterState = (key: keyof IFilterData, value: any): void => {
     setFilterData((prevState) => {
       if (key === "categories") {
@@ -64,6 +80,7 @@ const Shop = () => {
         }
         return { ...prevState, brands };
       }
+
       if (key === "priceRange") {
         const priceRange = {
           ...prevState.priceRange,
@@ -72,6 +89,13 @@ const Shop = () => {
         return {
           ...prevState,
           priceRange,
+        };
+      }
+
+      if (key === "sortBy") {
+        return {
+          ...prevState,
+          sortBy: value,
         };
       }
       return {
@@ -87,15 +111,16 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    if (search.get("page")) {
-      setPage(Number(search.get("page")));
-    }
-    if (search.get("title")) {
-      handleFilterState("search", search.get("title"));
-    }
-  }, [page, search.get("title")]);
+    refetch();
+  }, [filterData]);
 
-
+  console.log(data);
+  const sortProducts = [
+    { value: "random", label: "Random" },
+    { value: "low_to_high", label: "Low to High" },
+    { value: "high_to_low", label: "High to Low" },
+    { value: "latest", label: "Latest" },
+  ];
   return (
     <>
       <BreadCrumb title="shop" />
@@ -105,11 +130,15 @@ const Shop = () => {
         <div className="col-span-12 md:col-span-9">
           {/* sorting  */}
           <div className="flex items-center mb-4">
-            <select className="w-44 text-sm text-gray-600 py-3 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary">
-              <option value="">default sorting</option>
-              <option value="">price low to high</option>
-              <option value="">price high to low</option>
-              <option value="">latest product</option>
+            <select
+              className="w-44 text-sm text-gray-600 py-3 border-gray-300 shadow-sm rounded focus:ring-primary focus:border-primary"
+              onChange={(e) => handleFilterState("sortBy", e.target.value)}
+            >
+              {sortProducts.map((item) => (
+                <option value={item.value} key={item.value}>
+                  {item.label}
+                </option>
+              ))}
             </select>
             <div className="flex gap-2 ml-auto">
               <div
@@ -127,7 +156,7 @@ const Shop = () => {
             </div>
           </div>
           {data?.data && <ShopProducts products={data.data} />}
-          {data?.links && (
+          {data?.next_page_url && data?.links && (
             <Pagination links={data.links} handelPaginate={handelPaginate} />
           )}
         </div>

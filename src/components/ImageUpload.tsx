@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { BiImageAdd } from "react-icons/bi";
-
+import { FaTimes } from "react-icons/fa";
 type IProps = {
   setImages: React.Dispatch<React.SetStateAction<File[]>>;
   images: File[];
@@ -13,9 +13,15 @@ type IProps = {
       }[]
     >
   >;
+  imageResponse?: { url: string }[];
 };
 
-function ImageUpload({ setImageResponse, setImages, images }: IProps) {
+function ImageUpload({
+  setImageResponse,
+  setImages,
+  images,
+  imageResponse,
+}: IProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string>("");
   const [progress, setProgress] = useState<number>(0);
@@ -67,6 +73,12 @@ function ImageUpload({ setImageResponse, setImages, images }: IProps) {
       mutate(data);
     }
   };
+
+  const removeImage = (uri: string) => {
+    const removeItem = imageResponse?.filter((res) => res.url !== uri);
+    setImageResponse(removeItem ?? []);
+  };
+
   return (
     <div className="my-4">
       <h2 className="font-bold">images</h2>
@@ -77,28 +89,45 @@ function ImageUpload({ setImageResponse, setImages, images }: IProps) {
         className="hidden"
       />
       <div className="flex flex-wrap gap-4">
-        {images.map((image, idx) => (
-          <div className="relative w-32 max-h-20" key={idx}>
-            <div className="relative ">
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Selected Image"
-                className="w-full h-full"
-              />
-              <div className="bg-black absolute inset-0 opacity-30"></div>
-            </div>
-            <div className="w-3/4 bg-gray-200 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
-              <div
-                className="bg-primary text-xs font-medium text-blue-100 text-center p-[0.2px] leading-none rounded-sm transition-all duration-500  "
-                style={{
-                  width: `${images.length === idx + 1 ? progress : 100}%`,
-                }}
-              >
-                {images.length === idx + 1 ? progress : 100}%
+        {!imageResponse &&
+          images.map((image, idx) => (
+            <div className="relative w-32 max-h-20" key={idx}>
+              <div className="relative ">
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Selected Image"
+                  className="w-full h-full"
+                />
+                <div className="bg-black absolute inset-0 opacity-30"></div>
+              </div>
+              <div className="w-3/4 bg-gray-200 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+                <div
+                  className="bg-primary text-xs font-medium text-blue-100 text-center p-[0.2px] leading-none rounded-sm transition-all duration-500  "
+                  style={{
+                    width: `${images.length === idx + 1 ? progress : 100}%`,
+                  }}
+                >
+                  {images.length === idx + 1 ? progress : 100}%
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        {!!imageResponse &&
+          imageResponse.map((image, idx) => (
+            <div className="relative w-32 max-h-20" key={idx}>
+              <div className="relative ">
+                <img
+                  src={image.url}
+                  alt="Selected Image"
+                  className="w-full h-full"
+                />
+                <div onClick={() => removeImage(image.url)} className="absolute top-0 right-0 bg-primary w-6 h-6 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-red-900">
+                  <FaTimes />
+                </div>
+              </div>
+            </div>
+          ))}
+
         <div
           onClick={() => fileInputRef.current?.click()}
           className="bg-gray-100 cursor-pointer w-32 h-20 flex items-center justify-center text-3xl text-primary"

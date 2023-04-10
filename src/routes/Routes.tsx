@@ -21,6 +21,7 @@ import ProductList from "../pages/Admin/Products/ProductList";
 import User from "../pages/Admin/User";
 import AllOrder from "../pages/Admin/Order";
 import OrderDetails from "../pages/User/Order/OrderDetails";
+import EditProduct from "../pages/Admin/Products/EditProduct";
 
 
 function Routes() {
@@ -59,10 +60,13 @@ function Routes() {
         >
           <Route index element={<Dashboard />} />
           <Route path="add-product" element={<AddProduct />} />
+          <Route path="edit-product/:slug" element={<EditProduct />} />
           <Route path="product-list" element={<ProductList />} />
           <Route path="users" element={<User />} />
           <Route path="orders" element={<AllOrder />} />
+          <Route path="shipping-order" element={<AllOrder />} />
           <Route path="cancel-order" element={<AllOrder />} />
+          <Route path="delivered-order" element={<AllOrder />} />
         </Route>
       </Route>
     </Router>
