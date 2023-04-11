@@ -12,7 +12,8 @@ import { addToLocalStorage } from "../../utils/localStorage";
 import { RegisterSchema } from "./authSchema";
 
 export type TRegisterData = {
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   password_confirmation: string;
@@ -63,6 +64,21 @@ function Register() {
           <div className="space-y-4">
             <div>
               <label htmlFor="name" className="text-gray-600 mb-2 block">
+                First Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
+                placeholder="Type your name"
+                {...register("first_name")}
+              />
+              {errors.first_name && (
+                <p className="text-primary text-sm">{errors.first_name?.message}</p>
+              )}
+            </div>
+            <div>
+              <label htmlFor="name" className="text-gray-600 mb-2 block">
                 Name
               </label>
               <input
@@ -70,10 +86,10 @@ function Register() {
                 type="text"
                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="Type your name"
-                {...register("name")}
+                {...register("last_name")}
               />
-              {errors.name && (
-                <p className="text-primary text-sm">{errors.name?.message}</p>
+              {errors.last_name && (
+                <p className="text-primary text-sm">{errors.last_name?.message}</p>
               )}
             </div>
             <div>

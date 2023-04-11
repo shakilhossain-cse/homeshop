@@ -7,7 +7,8 @@ export const LoginSchema = z.object({
 
 export const RegisterSchema = z
   .object({
-    name: z.string().nonempty("Email is required"),
+    first_name: z.string().nonempty("first name is required"),
+    last_name: z.string().nonempty("last name is required"),
     email: z.string().nonempty("Email is required").email(),
     password: z.string().nonempty("Password is required").min(6),
     password_confirmation: z

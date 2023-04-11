@@ -1,11 +1,19 @@
 export interface IUser {
   id: number;
   email: string;
-  name: string;
+  first_name: string;
+  last_name: string;
   role: "member" | "admin";
+  isActive: boolean;
+  avatar: string | null;
+  gender: string | null;
+  date_of_birth: string | null;
+  phone: string | null;
+  is_active: boolean;
 }
-interface Image{
-  url:string
+
+interface Image {
+  url: string;
 }
 export interface IProduct {
   id: number;
@@ -54,15 +62,15 @@ interface IOrderItem {
 export interface IOrder {
   id: number;
   paymentStatus: "pending" | "paid";
-  status: "processing" | "shipping" | "delivered"|"cancel";
+  status: "processing" | "shipping" | "delivered" | "cancel";
   subtotal: number;
   total: number;
   user_id: number;
   created_at: string;
   order_items: IOrderItem[];
   orderId: string;
-  shipping:number;
-  tax:number;
+  shipping: number;
+  tax: number;
 }
 
 export interface AxiosErrorResponse {

@@ -40,14 +40,19 @@ function Sidebar() {
       <div className="px-4 py-3 shadow flex items-center gap-4">
         <div className="flex-shrink-0">
           <img
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+            src={
+              user?.avatar ??
+              "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
+            }
             alt="avatar"
             className="rounded-full w-14 h-14 border border-gray-200 p-1 object-cover"
           />
         </div>
         <div className="flex-grow">
           <p className="text-gray-600">Hello</p>
-          <h4 className="text-gray-800 font-medium uppercase">{user?.name}</h4>
+          <h4 className="text-gray-800 font-medium uppercase">
+            {user?.first_name} {user?.last_name}
+          </h4>
         </div>
       </div>
       <div className=" bg-white rounded shadow p-4 divide-y divide-gray-200 space-y-4 text-gray-600">
