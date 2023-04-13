@@ -22,6 +22,9 @@ import User from "../pages/Admin/User";
 import AllOrder from "../pages/Admin/Order";
 import OrderDetails from "../pages/User/Order/OrderDetails";
 import EditProduct from "../pages/Admin/Products/EditProduct";
+import MyOrder from "../pages/User/Order/MyOrder";
+import CancelOrder from "../pages/User/Order/CancelOrder";
+import RequireAdmin from "./RequireAdmin";
 
 
 function Routes() {
@@ -49,13 +52,15 @@ function Routes() {
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="info" element={<ProfileInfo />} />
           <Route path="wishlist" element={<Wishlist />} />
+          <Route path="my-order" element={<MyOrder />} />
+          <Route path="cancel-order" element={<CancelOrder />} />
         </Route>
         <Route
           path="admin/"
           element={
-            <RequireAuth>
+            <RequireAdmin>
               <AuthLayout />
-            </RequireAuth>
+            </RequireAdmin>
           }
         >
           <Route index element={<Dashboard />} />

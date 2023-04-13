@@ -50,6 +50,10 @@ export interface ICartData {
   quantity: number;
   product: IProduct;
 }
+export interface IWishlistData {
+  id: number;
+  product: IProduct;
+}
 
 interface IOrderItem {
   price: number;

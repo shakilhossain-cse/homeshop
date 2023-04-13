@@ -57,7 +57,7 @@ function TopBar() {
               )}
             </Link>
             <Link
-              to={user?.id ? "/user" : "/login"}
+              to={user?.id ? user.role ==='admin' ? "admin": "user" : "/login"}
               className="text-center text-gray-700 flex justify-center items-center flex-col hover:text-primary transition relative"
             >
               <div className="text-2xl">
