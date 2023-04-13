@@ -1,3 +1,4 @@
+import { IFilterResponse } from "../pages/Admin/Products/AddProduct";
 import { IFilterData, IShopProduct } from "../pages/Shop";
 import { IProduct } from "../type";
 import { HttpClient } from "../utils/axios";
@@ -21,3 +22,6 @@ export const getFilteredProducts = async (
   HttpClient.get(`/product?page=${page}`, {
     params: param,
   }).then((res) => res.data);
+
+export const getFilterData = (): Promise<IFilterResponse> =>
+  HttpClient.get("/filter-data").then((res) => res.data);

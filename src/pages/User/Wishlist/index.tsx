@@ -1,6 +1,11 @@
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { getWishlist } from "../../../services/wishlistService";
 
 function Wishlist() {
+  const { data,error } = useQuery(["wishlist", getWishlist]);
+  console.log(error);
+
   return (
     <div className="shadow rounded px-6 pt-5 pb-7">
       <h3 className="text-lg font-medium mb-4 capitalize">Wishlist</h3>

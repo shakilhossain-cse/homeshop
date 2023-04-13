@@ -29,6 +29,7 @@ export interface IFilterData {
   // [key: string]: string[] | number[] | string;
 }
 const Shop = () => {
+  const location = useLocation();
   const [filterData, setFilterData] = useState<IFilterData>({
     categories: [],
     brands: [],
@@ -114,18 +115,39 @@ const Shop = () => {
     refetch();
   }, [filterData]);
 
-  console.log(data);
   const sortProducts = [
     { value: "random", label: "Random" },
     { value: "low_to_high", label: "Low to High" },
     { value: "high_to_low", label: "High to Low" },
     { value: "latest", label: "Latest" },
   ];
+
+  useEffect(() => {
+    if (location.state?.category) {
+      setFilterData((prev) => ({
+        ...prev,
+        categories: [location.state.category],
+      }));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.search) {
+      setFilterData((prev) => ({
+        ...prev,
+        search: location.state.search,
+      }));
+    }
+  }, [location.state?.search]);
+
   return (
     <>
       <BreadCrumb title="shop" />
       <div className="container grid grid-cols-12 gap-6 pt-4 pb-16 items-start">
-        <ShopSidebar handleFilterState={handleFilterState} />
+        <ShopSidebar
+          handleFilterState={handleFilterState}
+          filterData={filterData}
+        />
         {/* products */}
         <div className="col-span-12 md:col-span-9">
           {/* sorting  */}

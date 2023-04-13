@@ -6,9 +6,9 @@ export const InfoSchema = z.object({
   birthday: z
     .string()
     .transform((str) => new Date(str)),
-  gender: z.enum(["male", "female", "other"]),
-  email: z.string().email().nonempty("Email is required"),
-  phone_number: z.string().nonempty("phone number is required"),
+  gender: z.enum(["Male", "Female", "Other"]),
+  phone: z.string().nonempty("phone number is required"),
+  avatar: z.string().nonempty("Avatar is required"),
 });
 
 export const changePasswordSchema = z

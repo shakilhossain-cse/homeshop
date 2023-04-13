@@ -106,7 +106,7 @@ function NavLinks() {
         ))}
       </div>
       <Link to="/login" className="text-gray-200 hover:text-white transition">
-        {user?.id ? "Hi " + user.name : "login"}
+        {user?.id ? "Hi " + user.first_name : "login"}
       </Link>
     </div>
   );

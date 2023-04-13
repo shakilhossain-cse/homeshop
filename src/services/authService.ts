@@ -30,3 +30,8 @@ export const getAllUser = (
   HttpClient.get(`/users`, { params: { page, search } }).then(
     (res) => res.data
   );
+
+export const getLoginUser = () => HttpClient.get("/me").then((res) => res.data);
+
+export const updateUserInfo = (data: any) =>
+  HttpClient.patch("/profile", data).then((res) => res.data);

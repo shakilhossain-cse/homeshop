@@ -1,11 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IProduct } from "../type";
 import { AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { addToCart, cartAtom } from "../recoil";
+import { useMutation } from "@tanstack/react-query";
+import { createWishlist } from "../services/wishlistService";
+import { userAtom } from "../recoil/atoms/LoginAtom";
 
 function ProductCard({ product }: { product: IProduct }) {
+  const user = useRecoilValue(userAtom);
   const [cart, setCart] = useRecoilState(cartAtom);
+  const navigate = useNavigate();
   const handelAddToCart = (product: IProduct, quantity: number) => {
     if (product.quantity <= 0 || product.quantity < quantity) return;
     if (isAddToCart(product.id) !== true) {
@@ -17,6 +22,14 @@ function ProductCard({ product }: { product: IProduct }) {
   const isAddToCart = (cartId: number): boolean => {
     const findCart = cart.find((item) => item.id === cartId);
     return !!findCart;
+  };
+  const { mutate } = useMutation(createWishlist);
+
+  const handelWishlist = (productId: number) => {
+    if (!user?.id) {
+      navigate('/login');
+    }
+    mutate(productId);
   };
 
   return (
@@ -32,9 +45,9 @@ function ProductCard({ product }: { product: IProduct }) {
           <a href="#" className="card-icon-link">
             <AiOutlineSearch />
           </a>
-          <a href="#" className="card-icon-link">
+          <button onClick={() => handelWishlist(product.id)} className="card-icon-link">
             <AiOutlineHeart />
-          </a>
+          </button>
         </div>
       </div>
       {/* product content  */}

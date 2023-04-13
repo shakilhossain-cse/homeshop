@@ -15,7 +15,8 @@ function Home() {
     <div>
       <Banner />
       <Services />
-      <Categories />
+      {data?.categories && <Categories categories={data.categories} />}
+
       {data?.recentProducts && (
         <Products data={data.recentProducts} title="New Arrival" />
       )}

@@ -1,24 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { getBillingData } from "../../../services/billingService";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InfoSchema } from "./schema";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userAtom } from "../../../recoil/atoms/LoginAtom";
+import { getLoginUser, updateUserInfo } from "../../../services/authService";
+import ImageUpload from "../../../components/ImageUpload";
+import { toast } from "react-toastify";
+import { USER_KEY } from "../../../recoil/constance";
+import { addToLocalStorage } from "../../../utils/localStorage";
 
 interface IProfileData {
   first_name: string;
   last_name: string;
   birthday: Date;
-  gender: "male" | "female" | "other";
+  gender: "Male" | "Female" | "Other";
   email: string;
-  phone_number: string;
+  phone: string;
+  avatar: string | null;
 }
 
 function ProfileInfo() {
-  const user = useRecoilValue(userAtom);
-  const { data } = useQuery(["Billing"], getBillingData);
+  const setUser = useSetRecoilState(userAtom);
+  const [imageResponse, setImageResponse] = useState<{ url: string }[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const { data } = useQuery(["user"], getLoginUser);
   const {
     register,
     handleSubmit,
@@ -29,19 +37,39 @@ function ProfileInfo() {
     defaultValues: {
       first_name: "",
       last_name: "",
+      birthday: new Date(),
+      gender: "Male",
+      phone: "",
     },
   });
 
-  const onSubmit = (data: IProfileData) => {
-    console.log(data);
+  const { mutate } = useMutation(updateUserInfo);
+
+  const onSubmit = (data: any) => {
+    mutate(data, {
+      onSuccess(d) {
+        setUser(d.data);
+        addToLocalStorage(USER_KEY, data);
+        toast.success(d.message);
+      },
+    });
   };
+
   useEffect(() => {
     if (data) {
-      setValue("first_name", data.firstName);
-      setValue("last_name", data.lastName);
-      setValue("email", user?.email ?? "");
+      setValue("first_name", data.first_name);
+      setValue("last_name", data.last_name);
+      setValue("email", data.email);
+      setValue("avatar", data.avatar);
+      setValue("birthday", data.date_of_birth);
+      setValue("phone", data.phone);
+      setValue("gender", data.gender);
+      data.avatar && setImageResponse([{ url: data.avatar }]);
     }
   }, [data]);
+  useEffect(() => {
+    setValue("avatar", imageResponse[0]?.url);
+  }, [imageResponse]);
 
   return (
     <div className="shadow rounded bg-white px-4 py-6 pb-8 w-full">
@@ -49,6 +77,16 @@ function ProfileInfo() {
         <h3 className="text-lg font-medium mb-4 capitalize">
           Profile Information
         </h3>
+        <ImageUpload
+          setImages={setImages}
+          images={images}
+          setImageResponse={setImageResponse}
+          imageResponse={imageResponse}
+          profile={true}
+        />
+        {errors.avatar && (
+          <p className="text-primary text-sm">{errors.avatar.message}</p>
+        )}
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-2 gap-4">
             <div>
@@ -106,9 +144,9 @@ function ProfileInfo() {
                 Gender
               </label>
               <select id="gender" {...register("gender")} className="input-box">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
               {errors.gender && (
                 <p className="text-primary text-sm">{errors.gender.message}</p>
@@ -138,13 +176,11 @@ function ProfileInfo() {
               <input
                 id="phone"
                 type="text"
-                {...register("phone_number")}
+                {...register("phone")}
                 className="input-box"
               />
-              {errors.phone_number && (
-                <p className="text-primary text-sm">
-                  {errors.phone_number.message}
-                </p>
+              {errors.phone && (
+                <p className="text-primary text-sm">{errors.phone.message}</p>
               )}
             </div>
           </div>

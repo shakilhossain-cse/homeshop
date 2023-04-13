@@ -14,6 +14,7 @@ type IProps = {
     >
   >;
   imageResponse?: { url: string }[];
+  profile?: boolean;
 };
 
 function ImageUpload({
@@ -21,6 +22,7 @@ function ImageUpload({
   setImages,
   images,
   imageResponse,
+  profile,
 }: IProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string>("");
@@ -81,7 +83,7 @@ function ImageUpload({
 
   return (
     <div className="my-4">
-      <h2 className="font-bold">images</h2>
+      <h2 className={profile ? '':`font-bold`}>{profile ? 'Avatar':`images`}</h2>
       <input
         ref={fileInputRef}
         type="file"
@@ -121,19 +123,33 @@ function ImageUpload({
                   alt="Selected Image"
                   className="w-full h-full"
                 />
-                <div onClick={() => removeImage(image.url)} className="absolute top-0 right-0 bg-primary w-6 h-6 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-red-900">
+                <div
+                  onClick={() => removeImage(image.url)}
+                  className="absolute top-0 right-0 bg-primary w-6 h-6 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-red-900"
+                >
                   <FaTimes />
                 </div>
               </div>
             </div>
           ))}
-
-        <div
-          onClick={() => fileInputRef.current?.click()}
-          className="bg-gray-100 cursor-pointer w-32 h-20 flex items-center justify-center text-3xl text-primary"
-        >
-          <BiImageAdd />
-        </div>
+        {profile ? (
+          imageResponse &&
+          imageResponse?.length !== 1 && (
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="bg-gray-100 cursor-pointer w-32 h-20 flex items-center justify-center text-3xl text-primary"
+            >
+              <BiImageAdd />
+            </div>
+          )
+        ) : (
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            className="bg-gray-100 cursor-pointer w-32 h-20 flex items-center justify-center text-3xl text-primary"
+          >
+            <BiImageAdd />
+          </div>
+        )}
       </div>
       <p className="text-primary">{error && error}</p>
     </div>

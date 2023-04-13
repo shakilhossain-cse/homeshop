@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,11 +11,8 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+import { getDashboardData } from "../../../services/dashboardService";
 
-const randomNumbers = Array.from({ length: labels.length }, () =>
-  Math.floor(Math.random() * 1000)
-);
 
 ChartJS.register(
   CategoryScale,
@@ -30,9 +28,6 @@ ChartJS.register(
 export const options = {
   responsive: true,
   plugins: {
-    // legend: {
-    //   position: "bottom" as const,
-    // },
     title: {
       display: false,
       text: "Chart.js Line Chart",
@@ -40,31 +35,25 @@ export const options = {
   },
 };
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: "Dataset 2",
-      data: randomNumbers,
-      borderColor: "rgb(53, 162, 235)",
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
-  ],
-};
+
 function Dashboard() {
+  const { data, isLoading } = useQuery<any>(
+    ["dashboard-data"],
+    getDashboardData
+  );
+
   return (
     <div>
       <div className="">
-        <Line options={options} data={data} />
-      </div>
-      <div className="grid grid-cols-12 gap-4 mt-10">
-        <div className="col-span-4 p-4 bg-gray-300">Hello</div>
-        <div className="col-span-4 p-4 bg-gray-300">Hello</div>
-        <div className="col-span-4 p-4 bg-gray-300">Hello</div>
+        {!isLoading && <Line options={options} data={data} />}
       </div>
     </div>
   );
 }
 
 export default Dashboard;
+// <div className="grid grid-cols-12 gap-4 mt-10">
+//   <div className="col-span-4 p-4 bg-gray-300">Hello</div>
+//   <div className="col-span-4 p-4 bg-gray-300">Hello</div>
+//   <div className="col-span-4 p-4 bg-gray-300">Hello</div>
+// </div>
