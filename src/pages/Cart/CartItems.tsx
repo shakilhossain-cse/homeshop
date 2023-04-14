@@ -1,7 +1,12 @@
 import React from "react";
 import { BsTrash } from "react-icons/bs";
 import { useRecoilState } from "recoil";
-import { cartAtom, decrementQuantity, incrementQuantity, removeFromCart } from "../../recoil";
+import {
+  cartAtom,
+  decrementQuantity,
+  incrementQuantity,
+  removeFromCart,
+} from "../../recoil";
 import { ICartData, IProduct } from "../../type";
 
 const Carts = ({ products }: { products: ICartData[] }) => {
@@ -44,7 +49,7 @@ const CattItem = ({ product }: { product: ICartData }) => {
     const newQty = incrementQuantity(cart, productId);
     setCart(newQty);
   };
-  
+
   const decrementQty = (productId: number) => {
     const newQty = decrementQuantity(cart, productId);
     setCart(newQty);
@@ -53,7 +58,7 @@ const CattItem = ({ product }: { product: ICartData }) => {
   return (
     <div className="flex items-center justify-between gap-4 p-4 border border-gray-200 rounded ">
       <div className="md:w-28 w-12 flex-shrink-0">
-        <img src={product.product.images} alt="product" className="w-full" />
+        <img src={product.product.images[0].url} alt="product" className="w-full" />
       </div>
       <div className="w-1/3">
         <h2 className="text-gray-800 text-sm md:text-xl font-medium uppercase">
@@ -83,7 +88,7 @@ const CattItem = ({ product }: { product: ICartData }) => {
           </div>
           <div
             className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
-            onClick={()=>increment(product.id)}
+            onClick={() => increment(product.id)}
           >
             +
           </div>
