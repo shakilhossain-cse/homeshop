@@ -91,7 +91,7 @@ function User() {
                     alt="Jese image"
                   />
                   <div className="pl-3">
-                    <div className="text-base font-semibold">{user.name}</div>
+                    <div className="text-base font-semibold">{user.first_name + " " + user.last_name}</div>
                     <div className="font-normal text-gray-500">
                       {user.email}
                     </div>
