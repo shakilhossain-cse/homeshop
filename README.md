@@ -35,42 +35,38 @@ This will start the development server and open the app in your default browser.
 
 ## Project Structure
 
-project-root/
-├── src/
-│  ├── assets/
-│  ├── components/
-│  ├── pages/
-│  │  ├── Home/
-│  │  ├── Payment/
-│  │  ├── Product/
-│  │  ├── Shop/
-│  │  ├── Admin/
-│  │  │  ├── Dashboard/
-│  │  │  ├── Order/
-│  │  │  ├── Product/
-│  │  │  ├── User/
-│  │  ├── User/
-│  │  │  ├── Order/
-│  │  │  ├── Profile/
-│  │  │  ├── Wishlist/
-│  │  │  ├── index.tsx
-│  ├── recoil/
-│  │  ├── atoms/
-│  │  ├── selectors/
-│  │  ├── constance.ts
-│  │  ├── index.ts
-│  ├── routes/
-│  ├── services/
-│  ├── utils/
-│  ├── App.tsx
-│  ├── index.css
-│  └── main.tsx
-├── .env
-├── .gitignore
-├── package.json
-├── README.md
-├── tsconfig.json
-└── vite.config.ts
+    project-root/
+    ├── ...
+    ├── src                    
+    │   ├── assets/                     # assets contains all images and files
+    │   ├── components/                 # components folder contains all universal components
+    │   ├── pages/                      # pages folder holds all pages
+    │   │  │  ├── home/                 # home folder have home page all data
+    │   │  │  ├── payment/              # payment older have all payment things
+    │   │  │  ├── shop/                 # shop folder have lots of things like sorting
+    │   │  │  ├── product/              # product folder have view full product
+    │   │  │  ├── cart/                 # cart folder have all cart things
+    │   │  │  ├── admin/                # admin folder have all of admin access data
+    │   │  │  │   ├── Dashboard/        # dashboard folder have a chart where admin see order data
+    │   │  │  │   ├── Order/            # Order folder get all user orders where you can change order status
+    │   │  │  │   ├── products/         # product folder admin can add new product and edit also
+    │   │  │  │   ├── user/             # user folder have all users  list and search from server
+    │   │  │  ├── user/                 # user folder have all of user access data
+    │   │  │  │   ├── Order/            # Order folder all product and view order status
+    │   │  │  │   ├── profile/          # profile folder user can update his profile information
+    │   │  │  │   ├── user/             # user folder have all users  list and search from server
+    │   │  │  │   ├── wishlist/         # wishlist folder nothing anything yet
+    │   │  │  ├── recoil/               # recoil folder have all of state things
+    │   │  │  │   ├── atoms/            # atom folder have all of atom
+    │   │  │  │   ├── selectors/        # selectors folder all of selector
+    │   │  │  │   ├── constance.ts      # constance.ts file all of constance
+    │   │  │  │   ├── index.ts          # index.ts this is entry point
+    │   ├── routes/                     # all routes data
+    │   ├── services/                   #services have all services api function
+    │   ├── utils/                      #utils have all util function
+    │   └── ...                 # etc.
+    └── ...
+
 
 ## Technologies Used
 
