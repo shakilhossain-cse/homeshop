@@ -14,7 +14,7 @@ To get started with the project, clone the repository and run:
 
 Switch to the repo folder
 
-    cd backend
+    cd homeshop
 
 ## Usage
 
