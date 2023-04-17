@@ -1,4 +1,4 @@
-# Project Title
+# Home Shop
 
 This is a Vite React TS project using Tanstack Query for data fetching, Recoil for state management, Tailwind CSS for styling, chart.js for make chart for admin order details and Laravel API for backend.
 
@@ -37,30 +37,34 @@ This will start the development server and open the app in your default browser.
 
 project-root/
 ├── src/
-│ ├── assets/
-│ ├── components/
-│ ├── pages/
-│ ├──├── Home/
-│ ├──├── Payment/
-│ ├──├── Product/
-│ ├──├── Shop/
-│ ├──├── Admin/
-│ ├──├──├── Dashboard/
-│ ├──├──├── Order/
-│ ├──├──├── Product/
-│ ├──├──├── User/
-│ ├──├── User/
-│ ├──├──├── Order/
-│ ├──├──├── Profile/
-│ ├──├──├── Wishlist/
-│ ├──├──├── index.tsx
-│ ├── recoil/
-│ ├── routes/
-│ ├── services/
-│ ├── utils/
-│ ├── App.tsx
-│ ├── index.css
-│ └── main.tsx
+│  ├── assets/
+│  ├── components/
+│  ├── pages/
+│  │  ├── Home/
+│  │  ├── Payment/
+│  │  ├── Product/
+│  │  ├── Shop/
+│  │  ├── Admin/
+│  │  │  ├── Dashboard/
+│  │  │  ├── Order/
+│  │  │  ├── Product/
+│  │  │  ├── User/
+│  │  ├── User/
+│  │  │  ├── Order/
+│  │  │  ├── Profile/
+│  │  │  ├── Wishlist/
+│  │  │  ├── index.tsx
+│  ├── recoil/
+│  │  ├── atoms/
+│  │  ├── selectors/
+│  │  ├── constance.ts
+│  │  ├── index.ts
+│  ├── routes/
+│  ├── services/
+│  ├── utils/
+│  ├── App.tsx
+│  ├── index.css
+│  └── main.tsx
 ├── .env
 ├── .gitignore
 ├── package.json
