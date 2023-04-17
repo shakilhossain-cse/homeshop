@@ -1,3 +1,7 @@
+![Screenshot from 2023-04-17 22-11-01](https://user-images.githubusercontent.com/86156069/232546519-0ef1468c-f625-4a5d-83d7-00f2463affd0.png)
+![Screenshot from 2023-04-17 22-10-35](https://user-images.githubusercontent.com/86156069/232546496-8954b89f-31f0-435a-9697-3b12e0b099e9.png)
+![Screenshot from 2023-04-17 22-05-07](https://user-images.githubusercontent.com/86156069/232546457-2e37dae7-3e62-4ad7-89f1-a9664bc116fb.png)
+
 # Home Shop
 
 This is a Vite React TS project using Tanstack Query for data fetching, Recoil for state management, Tailwind CSS for styling, chart.js for make chart for admin order details and Laravel API for backend.
@@ -32,12 +36,11 @@ This will start the development server and open the app in your default browser.
 - Cart page with item quantity management
 - Checkout page with form validation and confirmation
 
-
 ## Project Structure
 
     project-root/
     ├── ...
-    ├── src                    
+    ├── src
     │   ├── assets/                     # assets contains all images and files
     │   ├── components/                 # components folder contains all universal components
     │   ├── pages/                      # pages folder holds all pages
@@ -66,7 +69,6 @@ This will start the development server and open the app in your default browser.
     │   ├── utils/                      #utils have all util function
     │   └── ...                 # etc.
     └── ...
-
 
 ## Technologies Used
 
